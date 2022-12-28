@@ -177,9 +177,16 @@ class TestAccountService(TestCase):
         # assert that the updated_account["name"] is whatever you changed it to
         self.assertEqual(updated_account["name"], "Something Known")
 
-        
+    def test_delete_account(self):
+        """It should Delete an Account"""
+        account = self._create_accounts(1)[0]
+        resp = self.client.delete(f"{BASE_URL}/{account.id}")
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
     
-        
+    def test_method_not_allowed(self):
+        """It should not allow an illegal method call"""
+        resp = self.client.delete(BASE_URL)
+        self.assertEqual(resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
         
         
         
